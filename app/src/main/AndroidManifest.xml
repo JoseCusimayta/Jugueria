@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="yiwo.jugueria">
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+
+    <supports-screens android:anyDensity="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/NoTitleBar">
+        <activity
+            android:name=".vistaImpresion"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_vista_impresion"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Historial"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_historial"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleBar" />
+        <activity
+            android:name=".Inventario"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_inventario"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleBar" />
+        <activity
+            android:name=".PrintActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_print"
+            android:theme="@style/FullscreenTheme"></activity>
+    </application>
+
+</manifest>

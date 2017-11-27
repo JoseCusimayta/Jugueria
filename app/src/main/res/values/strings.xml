@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Jugueria</string>
+    <string name="title_activity_vista_impresion">vistaImpresion</string>
+
+    <string name="title_activity_historial">Historial</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_inventario">Inventario</string>
+
+    <string name="title_activity_print">PrintActivity</string>
+</resources>
