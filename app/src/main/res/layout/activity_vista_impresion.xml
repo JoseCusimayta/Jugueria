@@ -56,6 +56,7 @@
 
                 <LinearLayout
                     android:id="@+id/gridView_Factura"
+                    android:background="@drawable/customborder"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -98,9 +99,14 @@
                             android:text="Eliminar" />
                     </LinearLayout>
 
+                    <View
+                        android:layout_height="0.8dp"
+                        android:background="#ffffff"
+                        android:layout_width="match_parent" />
+
                     <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="210dp">
+                        android:layout_height="190dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -145,6 +151,10 @@
                         </LinearLayout>
                     </ScrollView>
 
+                    <View
+                        android:layout_height="0.8dp"
+                        android:background="#ffffff"
+                        android:layout_width="match_parent" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -171,6 +181,7 @@
                     android:id="@+id/gridView_Balance"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/customborder"
                     android:layout_alignParentEnd="false"
                     android:orientation="vertical"
                     android:visibility="gone">
@@ -178,7 +189,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="@drawable/customborder">
 
                         <TextView
                             android:id="@+id/textView18"
@@ -280,15 +292,19 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="270dp"
-                android:layout_height="280dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="250dp"
+                android:layout_height="310dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/customborder"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/customborder"
                     android:orientation="vertical">
 
                     <Spinner
@@ -303,6 +319,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -316,22 +333,25 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Cantidad"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                         <EditText
                             android:id="@+id/et_cantidad"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:background="@drawable/customborder"
                             android:hint="Cantidad"
                             android:inputType="number"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:maxLength="5"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -345,7 +365,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Cantidad Restante"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                         <TextView
                             android:id="@+id/tv_resto2"
@@ -356,13 +376,14 @@
                             android:layout_weight="1"
                             android:gravity="right"
                             android:text="0"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -372,18 +393,19 @@
 
                         <TextView
                             android:id="@+id/tv_unidad"
-                            android:layout_width="300dp"
+                            android:layout_width="260dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Precio por unidad"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                         <TextView
                             android:id="@+id/textView16"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="S/." />
+                            android:text="S/."
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                         <TextView
                             android:id="@+id/tv_unidad2"
@@ -392,13 +414,14 @@
                             android:layout_weight="1"
                             android:gravity="right"
                             android:text="00.00"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -408,18 +431,19 @@
 
                         <TextView
                             android:id="@+id/tv_total"
-                            android:layout_width="300dp"
+                            android:layout_width="260dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Precio total"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                         <TextView
                             android:id="@+id/textView17"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="S/." />
+                            android:text="S/."
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                         <TextView
                             android:id="@+id/tv_total2"
@@ -428,13 +452,14 @@
                             android:layout_weight="1"
                             android:gravity="right"
                             android:text="000.00"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout

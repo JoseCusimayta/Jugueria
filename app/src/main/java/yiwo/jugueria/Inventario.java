@@ -2,7 +2,6 @@ package yiwo.jugueria;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +23,8 @@ import java.sql.SQLException;
  * status bar and navigation/system bar) with user interaction.
  */
 public class Inventario extends AppCompatActivity {
+
+    //region DefaultCode
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -93,9 +94,13 @@ public class Inventario extends AppCompatActivity {
         }
     };
 
+
+    //endregion
+
+
     Button bt_reg, bt_elim, bt_act, bt_cancelar;
     EditText et_precio, et_producto, et_stock;
-    TextView tv_nombre,tv_precio, tv_lista,tv_codProducto;
+    TextView tv_codProducto;
     DB_Controller controller;
     String producto;
     Double precio;
@@ -130,9 +135,6 @@ public class Inventario extends AppCompatActivity {
         et_precio = findViewById(R.id.et_precio);
         et_producto = findViewById(R.id.et_producto);
         et_stock = findViewById(R.id.et_stock);
-        tv_lista = findViewById(R.id.tv_lista);
-        tv_precio = findViewById(R.id.tv_precio);
-        tv_nombre = findViewById(R.id.tv_nombre);
         tv_codProducto=findViewById(R.id.tv_codProducto);
         controller = new DB_Controller(this);
 
@@ -159,9 +161,26 @@ public class Inventario extends AppCompatActivity {
                 RellenarGridView();
                 break;
             case R.id.bt_elim:
-                Toast.makeText(this, Eliminar(), Toast.LENGTH_SHORT).show();
-                RellenarGridView();
-                bt_act.setEnabled(false);
+
+
+                new AlertDialog.Builder(Inventario.this)
+                        .setTitle("Eliminar")
+                        .setMessage("¿Esstá seguro de eliminar este producto?")
+                        .setNegativeButton(android.R.string.cancel, null) // dismisses by default
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override public void onClick(DialogInterface dialog, int which) {
+                                // do the acknowledged action, beware, this is run on UI thread
+
+
+                                Toast.makeText(Inventario.this, Eliminar(), Toast.LENGTH_SHORT).show();
+                                RellenarGridView();
+                                bt_act.setEnabled(false);
+                                bt_elim.setEnabled(false);
+                            }
+                        })
+                        .create()
+                        .show();
+
                 break;
             case R.id.bt_cancelar:
                 et_precio.setText("");
@@ -169,6 +188,7 @@ public class Inventario extends AppCompatActivity {
                 et_producto.setText("");
                 et_producto.requestFocus();
                 bt_act.setEnabled(false);
+                bt_elim.setEnabled(false);
                 break;
             case R.id.b_atras:
                 finish();
@@ -207,6 +227,8 @@ public class Inventario extends AppCompatActivity {
     public String Registrar() {
         if (ProductoVacio()) {
             if (controller.insert_productos(getProducto(), getPrecio(), getStock())) {
+                bt_act.setEnabled(false);
+                bt_elim.setEnabled(false);
                 return getProducto() + " agregado";
             } else {
                 return "No se pudo agregar el producto: " + getProducto();
@@ -218,7 +240,10 @@ public class Inventario extends AppCompatActivity {
 
     public String Actualizar(){
         if (ProductoVacio()) {
-            if (controller.update_productos(getProducto(), getPrecio(), getStock())) {
+            if (controller.update_productos(tv_codProducto.getText().toString(), getProducto(), getPrecio(), getStock())) {
+                bt_act.setText("Actualizar");
+                bt_act.setEnabled(false);
+                bt_elim.setEnabled(false);
                 return getProducto() + " actualizado";
             } else {
                 return "No se pudo actualizar el producto: " + getProducto();
@@ -229,7 +254,9 @@ public class Inventario extends AppCompatActivity {
     }
     public String Eliminar(){
         if (ProductoVacio()) {
-            if (controller.delete_productos(tv_codProducto.getText().toString())) {
+            if (controller.baja_producto(tv_codProducto.getText().toString())) {
+                bt_act.setEnabled(false);
+                bt_elim.setEnabled(false);
                 return getProducto() + " eliminado";
             } else {
                 return "No se pudo eliminar el producto: " + getProducto();

@@ -34,6 +34,7 @@
             <LinearLayout
                 android:layout_width="400dp"
                 android:layout_height="180dp"
+                android:background="@drawable/customborder"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginBottom="20dp"
@@ -67,6 +68,10 @@
                         android:text="Precio" />
                 </LinearLayout>
 
+                <View
+                    android:layout_height="0.8dp"
+                    android:background="#ffffff"
+                    android:layout_width="match_parent" />
                 <ScrollView
                     android:id="@+id/scrollView2"
                     android:layout_width="match_parent"
@@ -102,83 +107,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="400dp"
-                android:layout_height="180dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView11"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Producto" />
-
-                    <TextView
-                        android:id="@+id/textView13"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Cantidad" />
-
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Precio" />
-                </LinearLayout>
-
-                <ScrollView
-                    android:id="@+id/scrollView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignStart="@+id/textView6"
-                    android:layout_below="@+id/bt_cancelar">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_nombre"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tv_lista"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true" />
-
-                        <TextView
-                            android:id="@+id/tv_precio"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-                </ScrollView>
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="420dp"
-                android:layout_height="120dp"
+                android:layout_height="125dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/customborder"
                 android:orientation="vertical">
 
                 <TextView

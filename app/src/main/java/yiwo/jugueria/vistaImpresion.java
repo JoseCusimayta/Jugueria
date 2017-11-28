@@ -1,11 +1,14 @@
 package yiwo.jugueria;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.opengl.Visibility;
+import android.support.annotation.DrawableRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,12 +35,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static yiwo.jugueria.R.*;
+import static yiwo.jugueria.R.drawable.gridviewborder;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class vistaImpresion extends AppCompatActivity {
 
+
+    //region DefaultCode
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -106,6 +114,8 @@ public class vistaImpresion extends AppCompatActivity {
         }
     };
 
+    //endregion
+
 
     Spinner sp_item;
     Button b_inv, b_hist;
@@ -122,11 +132,11 @@ public class vistaImpresion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_vista_impresion);
+        setContentView(layout.activity_vista_impresion);
         //////////////////////////////////////////////////////
 
         mVisible = true;
-        mContentView = findViewById(R.id.fullscreen_content);
+        mContentView = findViewById(id.fullscreen_content);
 
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,25 +147,25 @@ public class vistaImpresion extends AppCompatActivity {
         //////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////
-        sp_item=  findViewById(R.id.sp_item);
-        b_inv=findViewById(R.id.b_inv);
-        b_hist=findViewById(R.id.b_hist);
-        tv_unidad=findViewById(R.id.tv_unidad2);
-        tv_total=findViewById(R.id.tv_total2);
-        et_cantidad=findViewById(R.id.et_cantidad);
-        tv_resto2=findViewById(R.id.tv_resto2);
-        tv_codVenta=findViewById(R.id.tv_codVenta);
-        tv_producto=findViewById(R.id.tv_prod);
-        tv_cantidad=findViewById(R.id.tv_cant);
-        tv_importe=findViewById(R.id.tv_importe);
-        tv_totalFinal=findViewById(R.id.tv_totalFinal);
-        lyv_producto=findViewById(R.id.lyv_producto);
-        lyv_cantidad=findViewById(R.id.lyv_cantidad);
-        lyv_subtotal=findViewById(R.id.lyv_subtotal);
-        lyv_eliminar=findViewById(R.id.lyv_eliminar);
-        tv_imporFactura=findViewById(R.id.tv_imporFactura);
-        gridView_Balance=findViewById(R.id.gridView_Balance);
-        gridView_Factura=findViewById(R.id.gridView_Factura);
+        sp_item=  findViewById(id.sp_item);
+        b_inv=findViewById(id.b_inv);
+        b_hist=findViewById(id.b_hist);
+        tv_unidad=findViewById(id.tv_unidad2);
+        tv_total=findViewById(id.tv_total2);
+        et_cantidad=findViewById(id.et_cantidad);
+        tv_resto2=findViewById(id.tv_resto2);
+        tv_codVenta=findViewById(id.tv_codVenta);
+        tv_producto=findViewById(id.tv_prod);
+        tv_cantidad=findViewById(id.tv_cant);
+        tv_importe=findViewById(id.tv_importe);
+        tv_totalFinal=findViewById(id.tv_totalFinal);
+        lyv_producto=findViewById(id.lyv_producto);
+        lyv_cantidad=findViewById(id.lyv_cantidad);
+        lyv_subtotal=findViewById(id.lyv_subtotal);
+        lyv_eliminar=findViewById(id.lyv_eliminar);
+        tv_imporFactura=findViewById(id.tv_imporFactura);
+        gridView_Balance=findViewById(id.gridView_Balance);
+        gridView_Factura=findViewById(id.gridView_Factura);
         controller= new DB_Controller(this);
         //////////////////////////////////////////////////////
 
@@ -190,7 +200,7 @@ public class vistaImpresion extends AppCompatActivity {
                 // If user change the default selection
                 // First item is disable and it is used for hint
                 if(position > 0){
-                    Cursor cursor = controller.buscar_productos(selectedItemText);
+                    Cursor cursor = controller.buscar_productos_spinner(selectedItemText);
                     if(null != cursor){
                         if (cursor.getCount() > 0) {
                             while (cursor.moveToNext()) {
@@ -258,31 +268,34 @@ public class vistaImpresion extends AppCompatActivity {
     }
     /////////////////////////////////////Boton imprimir///////////////////////////////////////////////
     public void Imprimir(View view) {
-        if (!et_cantidad.getText().toString().trim().isEmpty() && sp_item.getSelectedItemId() != 0) {
-            Integer cantidad = Integer.parseInt(et_cantidad.getText().toString());
-            Integer stock = Integer.parseInt(tv_resto2.getText().toString());
-            String producto = sp_item.getSelectedItem().toString();
-            if (cantidad <= stock) {
-                AgregarDetalle();
-                if (controller.insert_detalle_ventas_array(eDetalleVentasList)) {
-                    Toast.makeText(this, "Imprimiendo...", Toast.LENGTH_SHORT).show();
-                    controller.list_all_ventas(tv_codVenta, tv_producto, tv_cantidad, tv_importe, tv_totalFinal);
-                    eDetalleVentasList.clear();
-                } else {
-                    Toast.makeText(this, "No se pudo registrar la venta", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(this, "No hay suficientes productos", Toast.LENGTH_SHORT).show();
+         if(eDetalleVentasList.size()>0) {
+            {
+
+
+                new AlertDialog.Builder(vistaImpresion.this)
+                        .setTitle("Imprimir")
+                        .setMessage("¿Esstá seguro de haber terminado con la venta?")
+                        .setNegativeButton(android.R.string.cancel, null) // dismisses by default
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                if (controller.insert_detalle_ventas_array(eDetalleVentasList)) {
+                                    Toast.makeText(vistaImpresion.this, "Imprimiendo...", Toast.LENGTH_SHORT).show();
+                                    controller.list_all_ventas(tv_codVenta, tv_producto, tv_cantidad, tv_importe, tv_totalFinal);
+                                    et_cantidad.setText("");
+                                    eDetalleVentasList.clear();
+                                } else {
+                                    Toast.makeText(vistaImpresion.this, "No se pudo registrar la venta", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        })
+                        .create()
+                        .show();
             }
-        }else if(eDetalleVentasList.size()>0){
-            if (controller.insert_detalle_ventas_array(eDetalleVentasList)) {
-                Toast.makeText(this, "Imprimiendo...", Toast.LENGTH_SHORT).show();
-                controller.list_all_ventas(tv_codVenta, tv_producto, tv_cantidad, tv_importe, tv_totalFinal);
-                et_cantidad.setText("");
-                eDetalleVentasList.clear();
-            } else {
-                Toast.makeText(this, "No se pudo registrar la venta", Toast.LENGTH_SHORT).show();
-            }
+
+
         }
     }
 
@@ -325,7 +338,7 @@ public class vistaImpresion extends AppCompatActivity {
         } else {
             eDetalleVentasList.add(new E_DetalleVentas(CodigoVentas, Producto, Cantidad, Total));
         }
-        et_cantidad.setText("1");
+        et_cantidad.setText("");
         tv_resto2.setText("0");
         tv_unidad.setText("0");
         tv_total.setText("0");
@@ -356,9 +369,10 @@ public class vistaImpresion extends AppCompatActivity {
 
             TextView textView1 = new TextView(this);
             textView1.setText(prdoucto);
-            textView1.setTextSize(12);
+            textView1.setTextSize(10);
             textView1.setMaxHeight(40);
             textView1.setLayoutParams(llp);
+            //textView1.setBackground(R.drawable.gridviewborder);
             lyv_producto.addView(textView1);
 
 
@@ -366,12 +380,14 @@ public class vistaImpresion extends AppCompatActivity {
             textView2.setText(cantidad.toString());
             textView2.setGravity(Gravity.CENTER_HORIZONTAL);
             textView2.setLayoutParams(llp);
+            textView2.setTextSize(10);
             lyv_cantidad.addView(textView2);
 
             TextView textView3 = new TextView(this);
             textView3.setText(subTotal);
             textView3.setGravity(Gravity.CENTER_HORIZONTAL);
             textView3.setLayoutParams(llp);
+            textView3.setTextSize(10);
             lyv_subtotal.addView(textView3);
 
 
@@ -379,6 +395,7 @@ public class vistaImpresion extends AppCompatActivity {
             textView4.setText("Eliminar");
             textView4.setBackgroundColor(Color.GRAY);
             textView4.setGravity(Gravity.CENTER_HORIZONTAL);
+            textView4.setTextSize(10);
             textView4.setLayoutParams(llp);
             textView4.setHint(String.valueOf(eliminar_indice));
             final int finalEliminar_indice = eliminar_indice;
@@ -585,8 +602,8 @@ public class vistaImpresion extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        RellenarSpinner();
         eDetalleVentasList.clear();
+        RellenarSpinner();
         //gridView_Balance.setVisibility(View.VISIBLE);
         //gridView_Factura.setVisibility(View.GONE);
         super.onResume();

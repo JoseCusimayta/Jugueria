@@ -82,6 +82,14 @@ public class DB_Controller extends SQLiteOpenHelper {
             return false;
         }
     }
+    public boolean baja_producto(String ID) {
+        try {
+            getWritableDatabase().execSQL("Update Productos set Disponible= 0 where Id='" + ID + "'");
+            return true;
+        } catch (SQLiteException e) {
+            return false;
+        }
+    }
 
     public boolean cambiar_producto(String old_producto, String new_producto) {
         if (buscar_productos(old_producto).getCount() > 0) {
@@ -96,10 +104,10 @@ public class DB_Controller extends SQLiteOpenHelper {
         }
     }
 
-    public boolean update_productos(String producto, Double precio, Integer Stock) {
-        if (buscar_productos(producto).getCount() > 0) {
+    public boolean update_productos(String ID, String producto, Double precio, Integer Stock) {
+        if (buscar_productos(ID).getCount() > 0) {
             try {
-                getWritableDatabase().execSQL("Update Productos set precio=" + precio + ", Stock =" + Stock + " where producto='" + producto + "'");
+                getWritableDatabase().execSQL("Update Productos set producto='"+producto+"', precio=" + precio + ", Stock =" + Stock + ", Disponible=1 where ID=" + ID);
                 return true;
             } catch (SQLiteException e) {
                 return false;
@@ -169,7 +177,7 @@ public class DB_Controller extends SQLiteOpenHelper {
             lyv_cantidad.removeAllViews();
             lyv_precio.removeAllViews();
             DecimalFormat form = new DecimalFormat("0.00");
-            final Cursor cursor = this.getWritableDatabase().rawQuery("Select * from Productos where Disponible=1", null);
+            final Cursor cursor = this.getWritableDatabase().rawQuery("Select * from Productos", null);
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
 
@@ -195,6 +203,13 @@ public class DB_Controller extends SQLiteOpenHelper {
                     TextView textView3 = new TextView(context);
                     textView3.setText("S/. "+form.format(cursor.getDouble(2)));
                     lyv_precio.addView(textView3);
+
+                    if(cursor.getInt(4)==0){
+                        textView.setBackgroundColor(Color.RED);
+                        textView2.setBackgroundColor(Color.RED);
+                        textView3.setBackgroundColor(Color.RED);
+                    }
+
                     tag++;
                 }
             }
@@ -206,6 +221,7 @@ public class DB_Controller extends SQLiteOpenHelper {
         }
     }
     public  void  getProducto(String sql, TextView tv_codProducto, EditText tv_producto, EditText tv_precio, EditText tv_cantidad, Button bt_actualizar, Button bt_eliminar){
+        bt_actualizar.setText("Actualizar");
         bt_actualizar.setEnabled(true);
         bt_eliminar.setEnabled(true);
         Cursor cursor= this.getWritableDatabase().rawQuery(sql, null);
@@ -215,17 +231,27 @@ public class DB_Controller extends SQLiteOpenHelper {
                 tv_producto.setText(cursor.getString(1));
                 tv_precio.setText(cursor.getString(2));
                 tv_cantidad.setText(cursor.getString(3));
+                if(cursor.getInt(4)==0){
+                    bt_actualizar.setText("Activar");
+                    bt_eliminar.setEnabled(false);
+                }
             }
         }
     }
-    public Cursor buscar_productos(String producto) {
+    public Cursor buscar_productos(String ID) {
         try {
-            return this.getWritableDatabase().rawQuery("Select * from Productos where Producto='" + producto + "' ", null);
+            return this.getWritableDatabase().rawQuery("Select * from Productos where ID='" + ID + "' ", null);
         } catch (SQLiteException e) {
             return null;
         }
     }
-
+    public Cursor buscar_productos_spinner(String producto) {
+        try {
+            return this.getWritableDatabase().rawQuery("Select * from Productos where producto='" + producto + "' ", null);
+        } catch (SQLiteException e) {
+            return null;
+        }
+    }
     public Cursor list_all_productos() {
 
         try {
@@ -266,8 +292,8 @@ public class DB_Controller extends SQLiteOpenHelper {
     }
 
 
-    public void list_all_ventas(final Context context, LinearLayout lyv_codigo, LinearLayout lyv_fecha, LinearLayout lyv_hora, LinearLayout lyv_subtotal, TextView tv_Total, TextView tv_Fecha_Busqueda, Integer Dia_Mes_Año
-    , final LinearLayout lyv_detalle, final LinearLayout lyv_ticket, final LinearLayout lyv_producto, final LinearLayout lyv_cantidad, final LinearLayout lyv_totaldetalle) {
+    public void list_all_ventas(final Context context, LinearLayout lyv_codigo, LinearLayout lyv_fecha, LinearLayout lyv_hora, LinearLayout lyv_subtotal, final TextView tv_Total, TextView tv_Fecha_Busqueda, Integer Dia_Mes_Año
+    , final LinearLayout lyv_detalle, final LinearLayout lyv_ticket, final LinearLayout lyv_producto, final LinearLayout lyv_cantidad, final LinearLayout lyv_totaldetalle, final TextView tv_cTotaldetalle) {
         try {
 
             lyv_ticket.setVisibility(View.VISIBLE);
@@ -278,6 +304,7 @@ public class DB_Controller extends SQLiteOpenHelper {
             lyv_fecha.removeAllViews();
             lyv_hora.removeAllViews();
             lyv_subtotal.removeAllViews();
+            tv_Total.setText("");
             DecimalFormat form = new DecimalFormat("0.00");
 
             SimpleDateFormat sdfFecha = new SimpleDateFormat("dd/MM/yy");
@@ -309,7 +336,7 @@ public class DB_Controller extends SQLiteOpenHelper {
                     tv_codVenta.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            list_all_detalle(tv_codVenta.getText().toString(), context, lyv_detalle,  lyv_ticket,  lyv_producto,  lyv_cantidad,  lyv_totaldetalle);
+                            list_all_detalle(tv_codVenta.getText().toString(), context, lyv_detalle,  lyv_ticket,  lyv_producto,  lyv_cantidad,  lyv_totaldetalle,tv_cTotaldetalle);
                             //Toast.makeText(context,""+tv_codVenta.getText().toString(),Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -330,12 +357,6 @@ public class DB_Controller extends SQLiteOpenHelper {
                     lyv_subtotal.addView(tv_SubTotal);
                     total += cursor.getDouble(3);
                 }
-            }else{
-                lyv_codigo.removeAllViews();
-                lyv_fecha.removeAllViews();
-                lyv_hora.removeAllViews();
-                lyv_subtotal.removeAllViews();
-                tv_Total.setText("");
             }
             cursor.close();
             tv_Total.setText("S/. " + form.format(total).toString());
@@ -346,8 +367,8 @@ public class DB_Controller extends SQLiteOpenHelper {
         }
     }
 
-    public void list_all_ventas(final Context context, LinearLayout lyv_codigo, LinearLayout lyv_fecha, LinearLayout lyv_hora, LinearLayout lyv_subtotal, TextView tv_Total, TextView Fecha_Inicial, TextView Fecha_Final
-            , final LinearLayout lyv_detalle, final LinearLayout lyv_ticket, final LinearLayout lyv_producto, final LinearLayout lyv_cantidad, final LinearLayout lyv_totaldetalle) {
+    public void list_all_ventas(final Context context, LinearLayout lyv_codigo, LinearLayout lyv_fecha, LinearLayout lyv_hora, LinearLayout lyv_subtotal, final TextView tv_Total, TextView Fecha_Inicial, TextView Fecha_Final
+            , final LinearLayout lyv_detalle, final LinearLayout lyv_ticket, final LinearLayout lyv_producto, final LinearLayout lyv_cantidad, final LinearLayout lyv_totaldetalle, final TextView tv_cTotaldetalle) {
         try {
 
             lyv_ticket.setVisibility(View.VISIBLE);
@@ -358,6 +379,7 @@ public class DB_Controller extends SQLiteOpenHelper {
             lyv_fecha.removeAllViews();
             lyv_hora.removeAllViews();
             lyv_subtotal.removeAllViews();
+            tv_Total.setText("");
             DecimalFormat form = new DecimalFormat("0.00");
 
             SimpleDateFormat sdfFecha = new SimpleDateFormat("dd/MM/yy");
@@ -380,7 +402,7 @@ public class DB_Controller extends SQLiteOpenHelper {
                     tv_codVenta.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            list_all_detalle(tv_codVenta.getText().toString(), context, lyv_detalle,  lyv_ticket,  lyv_producto,  lyv_cantidad,  lyv_totaldetalle);
+                            list_all_detalle(tv_codVenta.getText().toString(), context, lyv_detalle,  lyv_ticket,  lyv_producto,  lyv_cantidad,  lyv_totaldetalle,tv_cTotaldetalle);
                             //getDetalle(context,tv_codVenta.getText().toString());
                             //Toast.makeText(context,""+tv_codVenta.getText().toString(),Toast.LENGTH_SHORT).show();
                         }
@@ -402,12 +424,6 @@ public class DB_Controller extends SQLiteOpenHelper {
                     lyv_subtotal.addView(tv_SubTotal);
                     total += cursor.getDouble(3);
                 }
-            }else{
-                lyv_codigo.removeAllViews();
-                lyv_fecha.removeAllViews();
-                lyv_hora.removeAllViews();
-                lyv_subtotal.removeAllViews();
-                tv_Total.setText("");
             }
             cursor.close();
             tv_Total.setText("S/. " + form.format(total).toString());
@@ -428,6 +444,7 @@ public class DB_Controller extends SQLiteOpenHelper {
             tv_Fecha.setText("");
             tv_Hora.setText("");
             tv_SubTotal.setText("");
+            tv_Total.setText("");
 
             SimpleDateFormat sdfFecha = new SimpleDateFormat("dd/MM/yy");
             SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
@@ -445,11 +462,6 @@ public class DB_Controller extends SQLiteOpenHelper {
                     tv_SubTotal.append("S/. " + form.format(cursor.getDouble(3)) + "\n");
                     total += cursor.getDouble(3);
                 }
-            } else {
-                tv_codVenta.setText("");
-                tv_Fecha.setText("");
-                tv_Hora.setText("");
-                tv_SubTotal.setText("");
             }
             cursor.close();
             tv_Total.setText("S/. " + form.format(total).toString());
@@ -591,48 +603,49 @@ public class DB_Controller extends SQLiteOpenHelper {
     }
 
     public void list_all_detalle(String CodVenta, Context context, LinearLayout lyv_detalle,  LinearLayout lyv_ticket, LinearLayout lyv_producto,
-                                 LinearLayout lyv_cantidad, LinearLayout lyv_totaldetalle){
+                                 LinearLayout lyv_cantidad, LinearLayout lyv_totaldetalle, TextView tv_total) {
         try {
+            double Total = 0.00;
             lyv_ticket.setVisibility(View.GONE);
             lyv_detalle.setVisibility(View.VISIBLE);
-            Double total = 0.00;
             lyv_producto.removeAllViews();
             lyv_cantidad.removeAllViews();
             lyv_totaldetalle.removeAllViews();
+            tv_total.setText("");
             DecimalFormat form = new DecimalFormat("0.00");
 
 
-
-            String sql = "Select * from DetalleVentas where CodVenta="+CodVenta;
+            String sql = "Select * from DetalleVentas where CodVenta=" + CodVenta;
 
 
             Cursor cursor = this.getWritableDatabase().rawQuery(sql, null);
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
 
-                    TextView textView1= new TextView(context);
+                    Total += cursor.getDouble(4);
+                    TextView textView1 = new TextView(context);
                     textView1.setText(cursor.getString(2));
                     lyv_producto.addView(textView1);
 
 
-                    TextView textView2= new TextView(context);
+                    TextView textView2 = new TextView(context);
                     textView2.setText(cursor.getString(3));
                     lyv_cantidad.addView(textView2);
 
 
-                    TextView textView3= new TextView(context);
+                    TextView textView3 = new TextView(context);
                     textView3.setText("S/. " + form.format(cursor.getDouble(4)));
                     lyv_totaldetalle.addView(textView3);
 
 
-
                 }
-            }else{
+            } else {
                 lyv_producto.removeAllViews();
                 lyv_cantidad.removeAllViews();
                 lyv_totaldetalle.removeAllViews();
             }
             cursor.close();
+            tv_total.setText("S/. " + form.format(Total).toString());
         } catch (SQLiteException e) {
             TextView textView = new TextView(context);
             textView.setText(e.getMessage());
@@ -699,6 +712,7 @@ public class DB_Controller extends SQLiteOpenHelper {
             lyv_producto.removeAllViews();
             lyv_cantidad.removeAllViews();
             lyv_totaldetalle.removeAllViews();
+            tv_Total.setText("");
             DecimalFormat form = new DecimalFormat("0.00");
 
             String sql = sql = "Select DetalleVentas.ID, DetalleVentas.CodVenta, DetalleVentas.Producto, sum(DetalleVentas.Cantidad), sum(DetalleVentas.SubTotal)" +

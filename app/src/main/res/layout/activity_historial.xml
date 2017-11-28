@@ -36,7 +36,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="35dp"
-                android:layout_marginTop="23dp">
+                android:layout_marginTop="10dp"
+                android:background="@drawable/customborder">
 
                 <RadioButton
                     android:id="@+id/rb_fecha"
@@ -73,7 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/radioGroup"
-                android:layout_centerVertical="true"
+                android:layout_below="@+id/radioGroup"
+                android:layout_marginTop="23dp"
                 android:text="Fecha"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -101,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/textView8"
-                android:layout_marginStart="27dp"
+                android:layout_marginStart="30dp"
                 android:layout_toEndOf="@+id/textView8"
                 android:text="Elegir Fecha"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
@@ -118,6 +120,7 @@
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="250dp"
+                android:background="@drawable/customborder"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="false"
                 android:layout_margin="15dp"
@@ -161,9 +164,13 @@
                             android:text="Total" />
                     </LinearLayout>
 
+                    <View
+                        android:layout_height="0.8dp"
+                        android:background="#ffffff"
+                        android:layout_width="match_parent" />
                     <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="210dp">
+                        android:layout_height="190dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -265,10 +272,15 @@
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_height="0.8dp"
+                        android:background="#ffffff"
+                        android:layout_width="match_parent" />
+
                     <ScrollView
                         android:id="@+id/scrollView4"
                         android:layout_width="match_parent"
-                        android:layout_height="210dp"
+                        android:layout_height="190dp"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@+id/textView3">
 
@@ -338,7 +350,7 @@
 
             <Button
                 android:id="@+id/bt_atras"
-                android:layout_width="100dp"
+                android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:layout_alignEnd="@+id/linearLayout"
                 android:layout_below="@+id/linearLayout"

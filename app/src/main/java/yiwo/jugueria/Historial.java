@@ -275,21 +275,21 @@ public class Historial extends AppCompatActivity implements DatePickerDialog.OnD
     public void buscar(View view) {
         if (rb_dia.isChecked()) {
             controller.list_all_ventas(this, lyv_codigo,lyv_fecha,lyv_hora,lyv_subtotal,tv_cTotal,tv_fecha,0
-            ,lyv_detalle,lyv_ticket,lyv_producto,lyv_cantidad,lyv_totaldetalle);
+            ,lyv_detalle,lyv_ticket,lyv_producto,lyv_cantidad,lyv_totaldetalle,tv_cTotaldetalle);
             //controller.list_all_ventas(tv_cCodigo, tv_cFecha, tv_cHora, tv_cSubTotal, tv_cTotal, tv_fecha, 0);
             //Falta hacer que una sola venta, tenga varios productos, por lo que falta ahcer el
             // algoritmo para guardar todos los productos y hacer que al momento de imprmir, se guarden todos con un solo Codigo de venta
         } else if (rb_mes.isChecked()) {
             //controller.list_all_ventas(tv_cCodigo, tv_cFecha, tv_cHora, tv_cSubTotal, tv_cTotal, tv_fecha, 1);
             controller.list_all_ventas(this, lyv_codigo,lyv_fecha,lyv_hora,lyv_subtotal,tv_cTotal,tv_fecha,1
-                    ,lyv_detalle,lyv_ticket,lyv_producto,lyv_cantidad,lyv_totaldetalle);
+                    ,lyv_detalle,lyv_ticket,lyv_producto,lyv_cantidad,lyv_totaldetalle,tv_cTotaldetalle);
         } else if (rb_año.isChecked()) {
             //controller.list_all_ventas(tv_cCodigo, tv_cFecha, tv_cHora, tv_cSubTotal, tv_cTotal, tv_fecha, 2);
             controller.list_all_ventas(this, lyv_codigo,lyv_fecha,lyv_hora,lyv_subtotal,tv_cTotal,tv_fecha,2
-                    ,lyv_detalle,lyv_ticket,lyv_producto,lyv_cantidad,lyv_totaldetalle);
+                    ,lyv_detalle,lyv_ticket,lyv_producto,lyv_cantidad,lyv_totaldetalle,tv_cTotaldetalle);
         } else if (rb_fecha.isChecked()) {
             controller.list_all_ventas(this, lyv_codigo,lyv_fecha,lyv_hora,lyv_subtotal,tv_cTotal, tv_fecha, tv_final
-                    ,lyv_detalle,lyv_ticket,lyv_producto,lyv_cantidad,lyv_totaldetalle);
+                    ,lyv_detalle,lyv_ticket,lyv_producto,lyv_cantidad,lyv_totaldetalle,tv_cTotaldetalle);
             //controller.list_all_ventas(tv_cCodigo, tv_cFecha, tv_cHora, tv_cSubTotal, tv_cTotal, tv_fecha, tv_final);
         }
     }
