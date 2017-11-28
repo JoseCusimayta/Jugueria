@@ -3,6 +3,7 @@ package yiwo.jugueria;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.opengl.Visibility;
@@ -324,7 +325,7 @@ public class vistaImpresion extends AppCompatActivity {
         Integer CodigoVentas = controller.getMaxCodVenta() + 1;
         String Producto = sp_item.getSelectedItem().toString();
         Integer Cantidad = Integer.parseInt(et_cantidad.getText().toString());
-        Double Total = Double.parseDouble(tv_total.getText().toString());
+        Double Total = Double.parseDouble(tv_total.getText().toString().replace(",","."));
         if (eDetalleVentasList.size() > 0) {
             if(existe()){
                 E_DetalleVentas e_detalleVentas = new E_DetalleVentas();
@@ -402,13 +403,26 @@ public class vistaImpresion extends AppCompatActivity {
             textView4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    eDetalleVentasList.remove(finalEliminar_indice);
+                    if(eDetalleVentasList.size()>0)
+                        eDetalleVentasList.remove(finalEliminar_indice);
                     ActualizarGridView();
                     //Toast.makeText(vistaImpresion.this, "Tag: "+textView4.getHint(), Toast.LENGTH_SHORT).show();
                 }
             });
             lyv_eliminar.addView(textView4);
             eliminar_indice++;
+
+            if ((getResources().getConfiguration().screenLayout &
+                    Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                    Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                // on a large screen device ...
+                textView1.setTextSize(20);
+                textView2.setTextSize(20);
+                textView3.setTextSize(20);
+                textView4.setTextSize(20);
+                textView4.setBackground(getResources().getDrawable(drawable.gridviewborder));
+            }
+
         }
         tv_imporFactura.setText("S/. "+form.format(Importe));
 
@@ -467,7 +481,8 @@ public class vistaImpresion extends AppCompatActivity {
             textView4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    eDetalleVentasList.remove(finalEliminar_indice);
+                    if(eDetalleVentasList.size()>0)
+                        eDetalleVentasList.remove(finalEliminar_indice);
                     RellenarGridView();
                     Toast.makeText(vistaImpresion.this, "Tag: "+textView4.getHint(), Toast.LENGTH_SHORT).show();
                 }

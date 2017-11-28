@@ -2,11 +2,13 @@ package yiwo.jugueria;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -210,6 +212,14 @@ public class DB_Controller extends SQLiteOpenHelper {
                         textView3.setBackgroundColor(Color.RED);
                     }
 
+                    if ((context.getResources().getConfiguration().screenLayout &
+                            Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                            Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                        // on a large screen device ...
+                        textView.setTextSize(20);
+                        textView2.setTextSize(20);
+                        textView3.setTextSize(20);
+                    }
                     tag++;
                 }
             }
@@ -345,10 +355,12 @@ public class DB_Controller extends SQLiteOpenHelper {
 
                     TextView tv_Fecha = new TextView(context);
                     tv_Fecha.setText(Fecha);
+                    tv_Fecha.setGravity(Gravity.CENTER);
                     lyv_fecha.addView(tv_Fecha);
 
                     TextView tv_Hora = new TextView(context);
                     tv_Hora.setText(Hora);
+                    tv_Hora.setGravity(Gravity.CENTER);
                     lyv_hora.addView(tv_Hora);
 
 
@@ -356,6 +368,18 @@ public class DB_Controller extends SQLiteOpenHelper {
                     tv_SubTotal.setText("S/. "+form.format(cursor.getDouble(3)));
                     lyv_subtotal.addView(tv_SubTotal);
                     total += cursor.getDouble(3);
+                    tv_SubTotal.setGravity(Gravity.RIGHT);
+
+
+                    if ((context.getResources().getConfiguration().screenLayout &
+                            Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                            Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                        // on a large screen device ...
+                        tv_codVenta.setTextSize(20);
+                        tv_Fecha.setTextSize(20);
+                        tv_Hora.setTextSize(20);
+                        tv_SubTotal.setTextSize(20);
+                    }
                 }
             }
             cursor.close();
@@ -412,17 +436,30 @@ public class DB_Controller extends SQLiteOpenHelper {
 
                     TextView tv_Fecha = new TextView(context);
                     tv_Fecha.setText(Fecha);
+                    tv_Fecha.setGravity(Gravity.CENTER);
                     lyv_fecha.addView(tv_Fecha);
 
                     TextView tv_Hora = new TextView(context);
                     tv_Hora.setText(Hora);
+                    tv_Hora.setGravity(Gravity.CENTER);
                     lyv_hora.addView(tv_Hora);
 
 
                     TextView tv_SubTotal = new TextView(context);
                     tv_SubTotal.setText("S/. "+form.format(cursor.getDouble(3)));
                     lyv_subtotal.addView(tv_SubTotal);
+                    tv_SubTotal.setGravity(Gravity.RIGHT);
                     total += cursor.getDouble(3);
+
+                    if ((context.getResources().getConfiguration().screenLayout &
+                            Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                            Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                        // on a large screen device ...
+                        tv_codVenta.setTextSize(20);
+                        tv_Fecha.setTextSize(20);
+                        tv_Hora.setTextSize(20);
+                        tv_SubTotal.setTextSize(20);
+                    }
                 }
             }
             cursor.close();
@@ -630,13 +667,23 @@ public class DB_Controller extends SQLiteOpenHelper {
 
                     TextView textView2 = new TextView(context);
                     textView2.setText(cursor.getString(3));
+                    textView2.setGravity(Gravity.RIGHT);
                     lyv_cantidad.addView(textView2);
 
 
                     TextView textView3 = new TextView(context);
                     textView3.setText("S/. " + form.format(cursor.getDouble(4)));
+                    textView3.setGravity(Gravity.RIGHT);
                     lyv_totaldetalle.addView(textView3);
 
+                    if ((context.getResources().getConfiguration().screenLayout &
+                            Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                            Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                        // on a large screen device ...
+                        textView1.setTextSize(20);
+                        textView2.setTextSize(20);
+                        textView3.setTextSize(20);
+                    }
 
                 }
             } else {
@@ -739,14 +786,23 @@ public class DB_Controller extends SQLiteOpenHelper {
 
                     TextView textView2= new TextView(context);
                     textView2.setText(cursor.getString(3));
+                    textView2.setGravity(Gravity.RIGHT);
                     lyv_cantidad.addView(textView2);
 
 
                     TextView textView3= new TextView(context);
                     textView3.setText("S/. " + form.format(cursor.getDouble(4)));
+                    textView3.setGravity(Gravity.RIGHT);
                     lyv_totaldetalle.addView(textView3);
 
-
+                    if ((context.getResources().getConfiguration().screenLayout &
+                            Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                            Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                        // on a large screen device ...
+                        textView1.setTextSize(20);
+                        textView2.setTextSize(20);
+                        textView3.setTextSize(20);
+                    }
                     total+=cursor.getDouble(4);
 
                 }
@@ -790,20 +846,31 @@ public class DB_Controller extends SQLiteOpenHelper {
 
                     TextView textView1= new TextView(context);
                     textView1.setText(cursor.getString(2));
+
                     lyv_producto.addView(textView1);
 
 
                     TextView textView2= new TextView(context);
                     textView2.setText(cursor.getString(3));
+                    textView2.setGravity(Gravity.RIGHT);
                     lyv_cantidad.addView(textView2);
 
 
                     TextView textView3= new TextView(context);
                     textView3.setText("S/. " + form.format(cursor.getDouble(4)));
+                    textView3.setGravity(Gravity.RIGHT);
                     lyv_totaldetalle.addView(textView3);
 
                     total+=cursor.getDouble(4);
 
+                    if ((context.getResources().getConfiguration().screenLayout &
+                            Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                            Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                        // on a large screen device ...
+                        textView1.setTextSize(20);
+                        textView2.setTextSize(20);
+                        textView3.setTextSize(20);
+                    }
                 }
             }else{
                 lyv_producto.removeAllViews();
